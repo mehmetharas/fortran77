@@ -1,0 +1,56 @@
+       DIMENSION NOT1(60),NOT2(60),NOT(120)
+		 READ(*,10)N1,N2,(NOT1(I),I=1,N1),(NOT2(I),I=1,N2)
+  10   FORMAT(2I3/(20I3))
+       CALL RT(NOT1,N1)
+		 CALL UT(NOT1,N1)
+		 AVE1=ORT(NOT1,N1)
+		 WRITE(*,15)AVE1
+  15   FORMAT(7X,'***BIRINCI SINIFIN ORTALAMASI=',F6.2)
+       CALL RT(NOT2,N2)
+		 CALL UT(NOT2,N2)
+		 AVE2=ORT(NOT2,N2)
+		 WRITE(*,16)AVE2
+  16   FORMAT(7X,'***IKINCI SINIFIN ORTALAMASI=',F6.2)
+       DO 20 I=1,N1
+  20   NOT(I)=NOT1(I)
+       DO 30 K=1,N2
+		 L=K+N1
+  30   NOT(L)=NOT2(K)
+       CALL RT(NOT,N1+N2)
+		 CALL UT(NOT,N1+N2)
+		 AVETOP=ORT(NOT,N1+N2)
+		 WRITE(*,17)AVETOP
+  17   FORMAT(7X,'***BUTUN OGRENCILERIN NOT ORTALAMASI=',F6.2)
+		 SUBROUTINE RT(S,V)
+		 DIMENSION SN(12)
+		 DO 10 K=1,I-1
+		 L=K+1
+		 DO 10 M=L,I
+       IF(SN(K).GE.S(M))GOTO 10
+		 D=S(K)
+       S(K)=S(M)
+       S(M)=D
+   10  CONTINUE
+	    RETURN
+	    STOP
+		 END
+		 SUBROUTINE UT(P,O)
+		 DIMENSION N(120)
+		 WRITE(*,10)
+  10   FORMAT(/17X,'SIRAYA KONULMUS OGRENCI NOTLARI'/17X,31('-'))
+       WRITE(*,20)(N(K),K=1,I)
+  20   FORMAT(7X,10I5)
+       RETURN
+		 STOP
+		 END
+		 FUNCTION ORT(A,N)
+		 DIMENSION A(N)
+		 TOP=0.0
+		 DO 10 I=1,N
+  10   TOP=TOP+A(I)
+       ORT=TOP/N
+		 RETURN
+		 STOP
+		 END
+       		 		 		 		 		 		 		 		 		 		 		 
+																						 
